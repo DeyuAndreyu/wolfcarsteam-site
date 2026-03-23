@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WOLF CARS TEAM</title>
+  <style>
+    :root {
+      --bg: #090909;
+      --bg-soft: #111111;
+      --card: rgba(255,255,255,0.05);
+      --line: rgba(255,255,255,0.12);
+      --text: #f5f5f5;
+      --muted: #b3b3b3;
+      --accent: #ff7a00;
+      --accent-soft: rgba(255,122,0,0.16);
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(255,122,0,0.14), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(255,122,0,0.08), transparent 22%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(9,9,9,0.82);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 1rem;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .menu a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .menu a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 16px;
+      font-weight: 700;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #111;
+      box-shadow: 0 0 32px rgba(255,122,0,0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 32px;
+      align-items: center;
+      padding: 72px 0 64px;
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,122,0,0.35);
+      background: rgba(255,255,255,0.04);
+      color: #ffb06a;
+      font-size: 0.88rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      margin: 0;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .lead {
+      font-size: 1.14rem;
+      color: #d0d0d0;
+      max-width: 640px;
+      margin: 22px 0 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
+      max-width: 700px;
+    }
+
+    .stat {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #0d0d0d;
+      box-shadow: var(--shadow);
+      min-height: 480px;
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 480px;
+      filter: brightness(0.8);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.18));
+    }
+
+    .hero-caption {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      background: rgba(0,0,0,0.46);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 22px;
+      padding: 18px;
+      backdrop-filter: blur(12px);
+    }
+
+    .section {
+      padding: 76px 0;
+    }
+
+    .section-title {
+      margin-bottom: 26px;
+    }
+
+    .section-kicker {
+      color: #ffb06a;
+      font-size: 0.88rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.05;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      max-width: 760px;
+      margin: 14px 0 0;
+    }
+
+    .about-grid,
+    .cards-3,
+    .gallery,
+    .members,
+    .contact-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .about-grid { grid-template-columns: 1.25fr 0.75fr; }
+    .cards-3, .members { grid-template-columns: repeat(3, 1fr); }
+    .gallery { grid-template-columns: repeat(4, 1fr); }
+    .contact-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .panel,
+    .card,
+    .member,
+    .contact-box,
+    .form-wrap {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .mini-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .mini-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .mini-box small {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      min-height: 290px;
+      background: #111;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+      min-height: 290px;
+    }
+
+    .gallery-item:hover img { transform: scale(1.08); }
+
+    .gallery-item .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: end;
+      padding: 18px;
+      background: linear-gradient(to top, rgba(0,0,0,0.82), rgba(0,0,0,0.08));
+    }
+
+    .card h3,
+    .member h3,
+    .contact-box h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.4rem;
+    }
+
+    .meta {
+      color: var(--muted);
+      margin: 6px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #ffb06a;
+      border: 1px solid rgba(255,122,0,0.18);
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    .member-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255,122,0,0.22), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,122,0,0.18);
+      margin-bottom: 18px;
+    }
+
+    .recruit-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #0b0b0b;
+      color: var(--text);
+      outline: none;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      grid-column: 1 / -1;
+    }
+
+    input:focus, textarea:focus {
+      border-color: rgba(255,122,0,0.6);
+      box-shadow: 0 0 0 3px rgba(255,122,0,0.12);
+    }
+
+    .footer {
+      padding: 24px 0 50px;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1000px) {
+      .hero-grid,
+      .about-grid,
+      .recruit-grid,
+      .gallery,
+      .cards-3,
+      .members,
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stats { grid-template-columns: 1fr; max-width: 100%; }
+    }
+
+    @media (max-width: 720px) {
+      .hero-grid,
+      .about-grid,
+      .recruit-grid,
+      .gallery,
+      .cards-3,
+      .members,
+      .contact-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu {
+        width: 100%;
+      }
+
+      .hero-card,
+      .hero-card img {
+        min-height: 340px;
+      }
+
+      .section {
+        padding: 58px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">WOLF <span>CARS</span> TEAM</div>
+      <div class="menu">
+        <a href="#despre">Despre</a>
+        <a href="#galerie">Galerie</a>
+        <a href="#evenimente">Evenimente</a>
+        <a href="#membri">Membri</a>
+        <a href="#recrutare">Recrutare</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">🐺 Comunitate auto/moto cu identitate puternică</div>
+        <h1>WOLF <span>CARS</span> TEAM</h1>
+        <p class="lead">
+          Comunitate Auto/Moto din Constanța. Un loc pentru oameni care iubesc mașinile,
+          meet-urile, cadrele bune și energia unui brand care se simte premium.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#recrutare">Alătură-te comunității</a>
+          <a class="btn btn-secondary" href="#evenimente">Vezi evenimente</a>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <strong>Pasiune</strong>
+            Respect pentru oameni, mașini și atmosferă.
+          </div>
+          <div class="stat">
+            <strong>Vibe</strong>
+            Stil dark, sportiv și memorabil.
+          </div>
+          <div class="stat">
+            <strong>WOLF</strong>
+            Identitate clară, nu doar un nume.
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1494905998402-395d579af36f?auto=format&fit=crop&w=1600&q=80" alt="Mașină sport WOLF" />
+        <div class="hero-overlay"></div>
+        <div class="hero-caption">
+          <div class="section-kicker" style="margin-bottom:6px;">Brand look</div>
+          <strong style="font-size:1.4rem; display:block; margin-bottom:6px;">Dark. Curat. Agresiv.</strong>
+          <span style="color:#d0d0d0;">Perfect ca să impresioneze ownerul și să dea senzația de comunitate serioasă.</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="despre">
+    <div class="container about-grid">
+      <div class="panel">
+        <span class="section-kicker">Despre noi</span>
+        <div class="section-title">
+          <h2>Mai mult decât o comunitate</h2>
+          <p>
+            WOLF CARS TEAM reunește oameni pasionați de mașini și motoare, într-un spațiu unde contează
+            respectul, prezența, stilul și energia pe care o aduci la fiecare întâlnire.
+          </p>
+        </div>
+        <p style="color:#d0d0d0; margin:0;">
+          Nu este doar despre poze și apariții. Este despre identitate, prietenii, experiențe și dorința de a construi
+          ceva memorabil în Constanța și dincolo de ea.
+        </p>
+      </div>
+
+      <div class="mini-stack">
+        <div class="mini-box">
+          <small>Vibe</small>
+          <strong>Dark • Premium • Sport</strong>
+        </div>
+        <div class="mini-box">
+          <small>Focus</small>
+          <strong>Meet-uri • Galerie • Recrutare</strong>
+        </div>
+        <div class="mini-box">
+          <small>Locație</small>
+          <strong>Constanța</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="galerie">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-kicker">Galerie</span>
+        <h2>Cadre care arată că WOLF nu e joacă</h2>
+        <p>Poți înlocui imaginile cu poze reale din comunitate, de la meet-uri sau ședințe foto.</p>
+      </div>
+
+      <div class="gallery">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80" alt="Galerie 1" />
+          <div class="overlay"><div><strong>WOLF Shot #1</strong><br><span style="color:#d0d0d0;">Night vibes • Premium look</span></div></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80" alt="Galerie 2" />
+          <div class="overlay"><div><strong>WOLF Shot #2</strong><br><span style="color:#d0d0d0;">Rolling shots • Speed</span></div></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80" alt="Galerie 3" />
+          <div class="overlay"><div><strong>WOLF Shot #3</strong><br><span style="color:#d0d0d0;">Meet energy • Presence</span></div></div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=1200&q=80" alt="Galerie 4" />
+          <div class="overlay"><div><strong>WOLF Shot #4</strong><br><span style="color:#d0d0d0;">Dark sport identity</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="evenimente">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-kicker">Evenimente</span>
+        <h2>Ce urmează în WOLF</h2>
+        <p>Aici poți afișa meet-uri, ședințe foto, ride-uri sau evenimente organizate de comunitate.</p>
+      </div>
+
+      <div class="cards-3">
+        <div class="card">
+          <h3>🔥 Meet Constanța</h3>
+          <div class="meta">📍 Constanța</div>
+          <div class="meta">🕒 Sâmbătă • 20:00</div>
+          <div class="tag">Upcoming</div>
+        </div>
+        <div class="card">
+          <h3>📸 Ședință foto</h3>
+          <div class="meta">📍 Mamaia</div>
+          <div class="meta">🕒 Duminică • 19:30</div>
+          <div class="tag">Photo Session</div>
+        </div>
+        <div class="card">
+          <h3>🌙 Night Ride</h3>
+          <div class="meta">📍 Dobrogea</div>
+          <div class="meta">🕒 Vineri • 22:00</div>
+          <div class="tag">Drive</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="membri">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-kicker">Membri</span>
+        <h2>Oameni care dau identitate comunității</h2>
+        <p>Pune aici membrii reali din WOLF, cu mașinile lor, ca să dai statut și prezență grupului.</p>
+      </div>
+
+      <div class="members">
+        <div class="member">
+          <div class="member-avatar"></div>
+          <h3>Alex</h3>
+          <div class="meta">BMW M5 F90</div>
+          <div class="tag">Membru WOLF</div>
+        </div>
+        <div class="member">
+          <div class="member-avatar"></div>
+          <h3>David</h3>
+          <div class="meta">Audi RS5</div>
+          <div class="tag">Membru WOLF</div>
+        </div>
+        <div class="member">
+          <div class="member-avatar"></div>
+          <h3>Mihai</h3>
+          <div class="meta">Mercedes-AMG C43</div>
+          <div class="tag">Membru WOLF</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="recrutare">
+    <div class="container recruit-grid">
+      <div class="panel">
+        <span class="section-kicker">Recrutare</span>
+        <h2 style="margin-top:0; font-size:clamp(2rem, 4vw, 3.2rem); line-height:1.05;">Vrei să faci parte din WOLF?</h2>
+        <p style="color:var(--muted);">
+          Aici poți lăsa un formular simplu sau poți lega butonul de WhatsApp, Google Forms sau Instagram.
+          Important e să pară curat și serios.
+        </p>
+        <ul style="color:#d0d0d0; padding-left:20px; margin:20px 0 0;">
+          <li>Nume</li>
+          <li>Vârstă</li>
+          <li>Oraș</li>
+          <li>Mașină / Motor</li>
+          <li>Scurtă prezentare</li>
+        </ul>
+      </div>
+
+      <div class="form-wrap">
+        <div class="form-grid">
+          <input type="text" placeholder="Nume" />
+          <input type="text" placeholder="Vârstă" />
+          <input type="text" placeholder="Oraș" />
+          <input type="text" placeholder="Mașină / Motor" />
+          <textarea placeholder="Spune câteva vorbe despre tine"></textarea>
+        </div>
+        <div style="margin-top:16px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+          <a class="btn btn-primary" href="#contact">Aplică acum</a>
+          <span style="color:var(--muted); font-size:0.95rem;">Leagă butonul de metoda voastră de contact preferată.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-title">
+        <span class="section-kicker">Contact</span>
+        <h2>Intră în legătură cu WOLF</h2>
+        <p>Înlocuiește # cu linkurile reale către WhatsApp, Instagram și Facebook.</p>
+      </div>
+
+      <div class="contact-grid">
+        <a class="contact-box" href="#">
+          <h3>WhatsApp</h3>
+          <div class="meta">Răspuns rapid pentru recrutare și întrebări.</div>
+        </a>
+        <a class="contact-box" href="#">
+          <h3>Instagram</h3>
+          <div class="meta">Poze, stories, reels și vibe-ul comunității.</div>
+        </a>
+        <a class="contact-box" href="#">
+          <h3>Facebook</h3>
+          <div class="meta">Grup, evenimente și anunțuri pentru membri.</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">© 2026 WOLF CARS TEAM • Pasiune. Respect. Putere.</div>
+  </footer>
+</body>
+</html>
